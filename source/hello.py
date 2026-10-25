@@ -29,4 +29,3 @@ def main(
 # Запускаю приложение как консольное
 if __name__ == "__main__":
     typer.run(main)
-    typer.run(main) # Проверка пункта 15 и далее
