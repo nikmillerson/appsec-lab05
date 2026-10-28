@@ -43,3 +43,38 @@ cgroups, организации контейнерных сетей и запу�
 
 ```bash
 docker compose up --build -d
+```
+Проверка приложения:
+
+```bash
+curl http://localhost:8000/
+curl http://localhost:8000/health
+curl http://localhost:8000/api/message
+```
+
+Остановка и удаление ресурсов:
+
+```bash
+docker compose down --remove-orphans
+```
+
+## Docker Hub
+
+Собранный образ опубликован в Docker Hub:
+
+<https://hub.docker.com/r/nikmillerson/hello-appsec-world>
+
+Доступные теги:
+
+- `latest`
+- `lab05`
+
+Образ приложения запускается от непривилегированного пользователя `app`.
+
+## Вывод
+
+В ходе лабораторной работы были изучены жизненный цикл Docker-образа,
+multi-stage сборка, безопасная конфигурация Dockerfile, namespaces,
+cgroups, пользовательские сети и Docker Compose. Итоговый стенд проверяет
+готовность сервера перед запуском клиента и использует встроенный DNS
+Docker для взаимодействия сервисов по имени.
