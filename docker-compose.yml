@@ -1,21 +1,41 @@
-version: "3.8"
-
-networks:
-  app_net:
-
 services:
   server:
     build: ./server
+    init: true
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     networks:
       - app_net
     command: python app.py
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import urllib.request;
+          urllib.request.urlopen(
+          'http://127.0.0.1:8000/health',
+          timeout=2)
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 3s
+    security_opt:
+      - no-new-privileges:true
 
   client:
     build: ./client
+    init: true
     depends_on:
-      - server
+      server:
+        condition: service_healthy
     networks:
       - app_net
     command: python client.py
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  app_net:
+    driver: bridge
